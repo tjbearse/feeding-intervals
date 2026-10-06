@@ -1,4 +1,4 @@
-import type { ComponentProps, Dispatch, HTMLInputTypeAttribute } from "react";
+import type { ComponentProps, Dispatch } from "react";
 import {
   type PsuedoTime,
   timeToString,
