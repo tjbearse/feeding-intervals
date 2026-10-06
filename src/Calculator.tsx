@@ -158,7 +158,7 @@ function solveCalculator(input: CalculatorState): CalculatorResult {
   const mEnd = input.desiredEndFeedTime;
 
   const mTimeRemain = mEnd - mStart;
-  let mInterval = Math.floor(mTimeRemain / feedingsRemaining);
+  let mInterval = mTimeRemain / feedingsRemaining;
 
   const mMaxInterval = input.maximumInterval;
   const mMinInterval = input.minimumInterval;
@@ -171,11 +171,12 @@ function solveCalculator(input: CalculatorState): CalculatorResult {
   }
   if (mInterval > mMaxInterval) {
     const n = Math.ceil(mTimeRemain / mMaxInterval);
-    mInterval = Math.floor(mTimeRemain / n);
+    mInterval = mTimeRemain / n;
   }
   const feedings = [];
   for (let i = mStart + mInterval; i <= mEnd; i += mInterval) {
-    feedings.push(i);
+    const feedingTime = Math.round(i);
+    feedings.push(feedingTime);
   }
   return {
     kind: "success",
