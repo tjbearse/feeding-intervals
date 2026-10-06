@@ -34,7 +34,15 @@ const Box = styled.div`
   border: solid 1px black;
   padding: 8px;
 `;
-const Heading = styled.h3``;
+const Grid = styled.div`
+  display: flex;
+  flex-direction: Row;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+const Heading = styled.h4`
+  margin: 0px;
+`;
 const Label = styled.label``;
 
 export const CalculatorForm = (props: {
@@ -51,89 +59,91 @@ export const CalculatorForm = (props: {
 
   return (
     <VStack>
-      <Box>
-        <VStack>
-          <Heading>Desired End Feed</Heading>
-          <HStack>
-            <Label>Time: </Label>
-            <Time
-              time={state.desiredEndFeedTime}
-              onChange={(t) =>
-                setState((draft) => {
-                  draft.desiredEndFeedTime = t;
-                })
-              }
-            />
-          </HStack>
-          <HStack>
-            <Label>Min feed number: </Label>
-            <Number
-              value={state.desiredEndFeedCount}
-              onChange={(n) =>
-                setState((draft) => {
-                  draft.desiredEndFeedCount = n ?? 8;
-                })
-              }
-              size={2}
-            />
-          </HStack>
-        </VStack>
-      </Box>
-      <Box>
-        <VStack>
-          <Heading>Interval Settings</Heading>
-          <HStack>
-            <Label>Min Interval: </Label>
-            <Interval
-              value={state.minimumInterval}
-              onChange={(t) =>
-                setState((draft) => {
-                  draft.minimumInterval = t;
-                })
-              }
-            />
-          </HStack>
-          <HStack>
-            <Label>Max Interval: </Label>
-            <Interval
-              value={state.maximumInterval}
-              onChange={(t) =>
-                setState((draft) => {
-                  draft.maximumInterval = t;
-                })
-              }
-            />
-          </HStack>
-        </VStack>
-      </Box>
-      <Box>
-        <VStack>
-          <Heading>Most Recent Feeding</Heading>
-          <HStack>
-            <Label>Time: </Label>
-            <Time
-              time={state.mostRecentFeedTime}
-              onChange={(t) =>
-                setState((draft) => {
-                  draft.mostRecentFeedTime = t;
-                })
-              }
-            />
-          </HStack>
-          <HStack>
-            <Label>Feed number: </Label>
-            <Number
-              value={state.mostRecentFeedCount}
-              onChange={(n) =>
-                setState((draft) => {
-                  draft.mostRecentFeedCount = n ?? 0;
-                })
-              }
-              size={2}
-            />
-          </HStack>
-        </VStack>
-      </Box>
+      <Grid>
+        <Box>
+          <VStack>
+            <Heading>Most Recent Feeding</Heading>
+            <HStack>
+              <Label>Time: </Label>
+              <Time
+                time={state.mostRecentFeedTime}
+                onChange={(t) =>
+                  setState((draft) => {
+                    draft.mostRecentFeedTime = t;
+                  })
+                }
+              />
+            </HStack>
+            <HStack>
+              <Label>Feed number: </Label>
+              <Number
+                value={state.mostRecentFeedCount}
+                onChange={(n) =>
+                  setState((draft) => {
+                    draft.mostRecentFeedCount = n ?? 0;
+                  })
+                }
+                size={2}
+              />
+            </HStack>
+          </VStack>
+        </Box>
+        <Box>
+          <VStack>
+            <Heading>Desired End Feed</Heading>
+            <HStack>
+              <Label>Time: </Label>
+              <Time
+                time={state.desiredEndFeedTime}
+                onChange={(t) =>
+                  setState((draft) => {
+                    draft.desiredEndFeedTime = t;
+                  })
+                }
+              />
+            </HStack>
+            <HStack>
+              <Label>Min feed number: </Label>
+              <Number
+                value={state.desiredEndFeedCount}
+                onChange={(n) =>
+                  setState((draft) => {
+                    draft.desiredEndFeedCount = n ?? 8;
+                  })
+                }
+                size={2}
+              />
+            </HStack>
+          </VStack>
+        </Box>
+        <Box>
+          <VStack>
+            <Heading>Interval Settings</Heading>
+            <HStack>
+              <Label>Min Interval: </Label>
+              <Interval
+                value={state.minimumInterval}
+                onChange={(t) =>
+                  setState((draft) => {
+                    draft.minimumInterval = t;
+                  })
+                }
+              />
+            </HStack>
+            <HStack>
+              <Label>Max Interval: </Label>
+              <Interval
+                value={state.maximumInterval}
+                onChange={(t) =>
+                  setState((draft) => {
+                    draft.maximumInterval = t;
+                  })
+                }
+              />
+            </HStack>
+          </VStack>
+        </Box>
+      </Grid>
       <button onClick={() => props.onSubmit(state)}>Calculate</button>
     </VStack>
   );

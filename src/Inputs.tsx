@@ -11,6 +11,7 @@ import styled from "styled-components";
 
 const NumberInput = styled.input`
   text-align: right;
+  margin-left: 4px;
 `;
 export const Number = (props: {
   value: number;
@@ -26,6 +27,7 @@ export const Number = (props: {
     />
   );
 };
+
 export const Time = (props: {
   time: PsuedoTime;
   onChange: Dispatch<PsuedoTime>;
@@ -40,6 +42,7 @@ export const Time = (props: {
       onChange={(e) => {
         props.onChange(stringToTime(e.target.value));
       }}
+      style={{ marginLeft: 4 }}
     />
   );
 };
