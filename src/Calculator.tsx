@@ -19,6 +19,7 @@ interface CalculatorState {
   desiredEndFeedCount: number;
   minimumInterval: PsuedoTimeDelta;
   maximumInterval: PsuedoTimeDelta;
+  roundIncrement: number;
 }
 
 const VStack = styled.div`
@@ -55,6 +56,7 @@ export const CalculatorForm = (props: {
     desiredEndFeedCount: 8,
     minimumInterval: intervalOf(2),
     maximumInterval: intervalOf(3, 30),
+    roundIncrement: 0,
   });
 
   return (
@@ -141,6 +143,18 @@ export const CalculatorForm = (props: {
                 }
               />
             </HStack>
+            <HStack>
+              <Label>Round</Label>
+              <Number
+                value={state.roundIncrement}
+                step={5}
+                onChange={(t) =>
+                  setState((draft) => {
+                    draft.roundIncrement = t;
+                  })
+                }
+              />
+            </HStack>
           </VStack>
         </Box>
       </Grid>
@@ -185,7 +199,10 @@ function solveCalculator(input: CalculatorState): CalculatorResult {
   }
   const feedings = [];
   for (let i = mStart + mInterval; i <= mEnd; i += mInterval) {
-    const feedingTime = Math.round(i);
+    let feedingTime = Math.round(i);
+    if (input.roundIncrement) {
+      feedingTime = roundBy(feedingTime, input.roundIncrement);
+    }
     feedings.push(feedingTime);
   }
   return {
@@ -250,4 +267,8 @@ function ResultList(props: {
       Total feedings: {props.result.totalFeedings}
     </div>
   );
+}
+
+function roundBy(n: number, round: number): number {
+  return Math.round(n / round) * round;
 }

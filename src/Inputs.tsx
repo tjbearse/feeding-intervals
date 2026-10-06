@@ -1,4 +1,4 @@
-import type { Dispatch } from "react";
+import type { ComponentProps, Dispatch, HTMLInputTypeAttribute } from "react";
 import {
   type PsuedoTime,
   timeToString,
@@ -13,17 +13,18 @@ const NumberInput = styled.input`
   text-align: right;
   margin-left: 4px;
 `;
-export const Number = (props: {
-  value: number;
-  onChange?: Dispatch<number>;
-  size?: number;
-}) => {
+export const Number = (
+  props: {
+    value: number;
+    onChange?: Dispatch<number>;
+  } & Omit<ComponentProps<typeof NumberInput>, "onChange" | "value">,
+) => {
   return (
     <NumberInput
       type="number"
+      {...props}
       value={props.value}
       onChange={(e) => props?.onChange?.(parseInt(e.target.value) || 0)}
-      size={props.size}
     />
   );
 };
