@@ -4,8 +4,6 @@ import {
   intervalOf,
   timeOf,
   type PsuedoTimeDelta,
-  toMinutes,
-  fromMinutes,
   humanTime,
   humanInterval,
   subtract,
@@ -76,6 +74,7 @@ export const CalculatorForm = (props: {
                   draft.desiredEndFeedCount = n ?? 8;
                 })
               }
+              size={2}
             />
           </HStack>
         </VStack>
@@ -130,6 +129,7 @@ export const CalculatorForm = (props: {
                   draft.mostRecentFeedCount = n ?? 0;
                 })
               }
+              size={2}
             />
           </HStack>
         </VStack>
@@ -154,16 +154,16 @@ type CalculatorResult = CalculationImpossible | CalculationSolution;
 function solveCalculator(input: CalculatorState): CalculatorResult {
   const feedingsRemaining =
     input.desiredEndFeedCount - input.mostRecentFeedCount;
-  const mStart = toMinutes(input.mostRecentFeedTime);
-  const mEnd = toMinutes(input.desiredEndFeedTime);
+  const mStart = input.mostRecentFeedTime;
+  const mEnd = input.desiredEndFeedTime;
 
   const mTimeRemain = mEnd - mStart;
   let mInterval = Math.floor(mTimeRemain / feedingsRemaining);
 
-  const mMaxInterval = toMinutes(input.maximumInterval);
-  const mMinInterval = toMinutes(input.minimumInterval);
+  const mMaxInterval = input.maximumInterval;
+  const mMinInterval = input.minimumInterval;
   if (mInterval < mMinInterval) {
-    const humanRes = humanInterval(fromMinutes(mTimeRemain));
+    const humanRes = humanInterval(mTimeRemain);
     return {
       kind: "error",
       error: `not enough time, need ${feedingsRemaining} feedings in ${humanRes}`,
@@ -175,7 +175,7 @@ function solveCalculator(input: CalculatorState): CalculatorResult {
   }
   const feedings = [];
   for (let i = mStart + mInterval; i <= mEnd; i += mInterval) {
-    feedings.push(fromMinutes(i));
+    feedings.push(i);
   }
   return {
     kind: "success",

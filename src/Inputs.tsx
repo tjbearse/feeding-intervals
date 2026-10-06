@@ -4,17 +4,24 @@ import {
   timeToString,
   stringToTime,
   type PsuedoTimeDelta,
+  toParts,
 } from "./PsuedoTime";
+import styled from "styled-components";
 
+const NumberInput = styled.input`
+  text-align: right;
+`;
 export const Number = (props: {
   value: number;
   onChange?: Dispatch<number>;
+  size?: number;
 }) => {
   return (
-    <input
+    <NumberInput
       type="number"
       value={props.value}
       onChange={(e) => props?.onChange?.(parseInt(e.target.value))}
+      size={props.size}
     />
   );
 };
@@ -40,10 +47,10 @@ export const Interval = (props: {
   value: PsuedoTimeDelta;
   onChange: Dispatch<PsuedoTimeDelta>;
 }) => {
+  const { hour, minute } = toParts(props.value);
   return (
     <div>
-      <Number value={props.value.hour} />h :{" "}
-      <Number value={props.value.minute} />m
+      <Number value={hour} size={2} />h : <Number value={minute} size={2} />m
     </div>
   );
 };
