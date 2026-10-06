@@ -5,6 +5,7 @@ import {
   stringToTime,
   type PsuedoTimeDelta,
   toParts,
+  timeOf,
 } from "./PsuedoTime";
 import styled from "styled-components";
 
@@ -20,7 +21,7 @@ export const Number = (props: {
     <NumberInput
       type="number"
       value={props.value}
-      onChange={(e) => props?.onChange?.(parseInt(e.target.value))}
+      onChange={(e) => props?.onChange?.(parseInt(e.target.value) || 0)}
       size={props.size}
     />
   );
@@ -37,7 +38,6 @@ export const Time = (props: {
       max="24:00"
       step={60}
       onChange={(e) => {
-        console.log(e.target.value);
         props.onChange(stringToTime(e.target.value));
       }}
     />
@@ -48,9 +48,16 @@ export const Interval = (props: {
   onChange: Dispatch<PsuedoTimeDelta>;
 }) => {
   const { hour, minute } = toParts(props.value);
+  const onHourChange = (hourPrime: number) => {
+    props.onChange?.(timeOf(hourPrime ?? 0, minute));
+  };
+  const onMinuteChange = (minutePrime: number) => {
+    props.onChange?.(timeOf(hour, minutePrime ?? 0));
+  };
   return (
     <div>
-      <Number value={hour} size={2} />h : <Number value={minute} size={2} />m
+      <Number value={hour} size={2} onChange={onHourChange} />h :{" "}
+      <Number value={minute} size={2} onChange={onMinuteChange} />m
     </div>
   );
 };
